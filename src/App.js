@@ -22,8 +22,12 @@ class App extends Component {
 
   geoFindMe() {
     const success = position => {
-      const latitude = position.coords.latitude
-      const longitude = position.coords.longitude
+      /* 查過的地點，天氣資料會存在 localStorage
+       * 距離差不多的地方，不用重查
+       * 所以只保留小數點後兩位
+       */
+      const latitude = position.coords.latitude.toFixed(2)
+      const longitude = position.coords.longitude.toFixed(2)
 
       this.setStatus(`latitude: ${latitude}, longitude: ${longitude}`)
 
@@ -49,18 +53,41 @@ class App extends Component {
   }
 
   getData(latitude, longitude) {
-    /**
-     * https://darksky.net/dev/docs/faq#cross-origin
-     * Dark Sky API 說不給用 CORS
-     * 所以用 Jsonp
-     */
-    return fetchJsonp(`${DARK_SKY_API_URL}${latitude},${longitude}`)
-      .then(function(response) {
-        return response.json()
-      })
-      .then(function(myJson) {
-        console.log(myJson)
-      })
+    const key = `${latitude}${longitude}`
+    const data = JSON.parse(localStorage.getItem(key))
+
+    if (data && this.isCloseToThePresentTime(data)) {
+      console.log("use old data")
+      return Promise.resolve(data)
+    } else {
+      /**
+       * https://darksky.net/dev/docs/faq#cross-origin
+       * Dark Sky API 說不給用 CORS
+       * 所以用 Jsonp
+       */
+      return fetchJsonp(`${DARK_SKY_API_URL}${latitude},${longitude}`)
+        .then(function(response) {
+          return response.json()
+        })
+        .then(function(myJson) {
+          console.log("call api then save new data")
+          localStorage.setItem(key, JSON.stringify(myJson))
+          console.log(myJson)
+        })
+    }
+  }
+
+  isCloseToThePresentTime(data) {
+    const DoNotUpdateTime = 5 * 60
+
+    return this.getNowTimestampInSeconds() - data.currently.time <
+      DoNotUpdateTime
+      ? true
+      : false
+  }
+
+  getNowTimestampInSeconds() {
+    return Math.floor(Date.now() / 1000)
   }
 
   render() {
