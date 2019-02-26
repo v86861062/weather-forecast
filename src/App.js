@@ -10,6 +10,8 @@ import "./App.css"
 const DARK_SKY_API_URL =
   "https://api.darksky.net/forecast/4cb365a801ca5928923efc0e201b8497/"
 
+const LANGUAGE = "zh-tw"
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -65,7 +67,9 @@ class App extends Component {
        * Dark Sky API 說不給用 CORS
        * 所以用 Jsonp
        */
-      return fetchJsonp(`${DARK_SKY_API_URL}${latitude},${longitude}`)
+      return fetchJsonp(
+        `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
+      )
         .then(function(response) {
           return response.json()
         })
