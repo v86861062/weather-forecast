@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import fetchJsonp from "fetch-jsonp"
+
+import WeatherOfTheDay from "./WeatherOfTheDay"
 import "./App.css"
 
 /**
@@ -16,13 +18,15 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = { status: "" }
+    this.data = null
+    this.loaded = false
   }
 
   componentWillMount() {
     this.geoFindMe()
   }
 
-  geoFindMe() {
+  geoFindMe = () => {
     const success = position => {
       /* 查過的地點，天氣資料會存在 localStorage
        * 距離差不多的地方，不用重查
@@ -34,7 +38,11 @@ class App extends Component {
       this.setStatus(`latitude: ${latitude}, longitude: ${longitude}`)
 
       this.getData(latitude, longitude)
-        .then(data => console.log(data)) // JSON from `response.json()` call
+        .then(data => {
+          console.log(`data:`)
+          console.log(data)
+          this.setState({ data: { ...data }, loaded: true })
+        }) // JSON from `response.json()` call
         .catch(error => console.error(error))
     }
 
@@ -76,7 +84,7 @@ class App extends Component {
         .then(function(myJson) {
           console.log("call api then save new data")
           localStorage.setItem(key, JSON.stringify(myJson))
-          console.log(myJson)
+          return myJson
         })
     }
   }
@@ -95,9 +103,35 @@ class App extends Component {
   }
 
   render() {
+    const { status, loaded, data } = this.state
+
+    let weatherOfTheDays = null
+    let currentlyInfo = null
+    if (loaded) {
+      weatherOfTheDays = data.daily.data.map(d => (
+        <WeatherOfTheDay
+          key={d.time}
+          temperatureMax={d.apparentTemperatureMax}
+          temperatureMin={d.apparentTemperatureMin}
+          icon={d.icon}
+          timestamp={d.time}
+        />
+      ))
+
+      const time = new Date(data.currently.time * 1000)
+      currentlyInfo = `${time.getMonth() + 1}/${time.getDate()}
+                        ${time.getHours()}:${time.getMinutes()}
+                        ${data.currently.summary}`
+    }
+
     return (
       <div className="App">
-        <p>{this.state.status}</p>
+        <p>{status}</p>
+
+        {currentlyInfo}
+
+        <p>---------------</p>
+        {weatherOfTheDays}
       </div>
     )
   }
