@@ -1,13 +1,10 @@
 import React, { Component } from "react"
-
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import "./App.css"
 
-/**
- * https://darksky.net/dev/docs/faq#cross-origin
+/* https://darksky.net/dev/docs/faq#cross-origin
  * 這裡說 API key 不要放在 clients
- * 但我沒填信用卡資料，所以被盜用也沒損失 :)
- */
+ * 但我沒填信用卡資料，所以被盜用也沒損失 :) */
 const DARK_SKY_API_URL =
   "https://api.darksky.net/forecast/4cb365a801ca5928923efc0e201b8497/"
 
@@ -18,79 +15,44 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: "",
-      data: null,
+      WeatherData: null,
       loaded: false,
-      address: ""
+      address: null
     }
   }
 
   componentWillMount() {
-    this.geoFindMe()
-  }
+    this.getPosition()
+      .then(position => {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        this.getWeatherData(latitude, longitude).then(data => {
+          this.setState({ WeatherData: { ...data }, loaded: true })
+        })
 
-  geoFindMe = () => {
-    const success = position => {
-      /* 查過的地點，天氣資料會存在 localStorage
-       * 距離差不多的地方，不用重查
-       * 所以只保留小數點後兩位
-       */
-      const latitude = position.coords.latitude.toFixed(2)
-      const longitude = position.coords.longitude.toFixed(2)
-
-      this.setStatus(`latitude: ${latitude}, longitude: ${longitude}`)
-
-      this.getData(latitude, longitude)
-        .then(data => {
-          console.log(`data:`)
-          console.log(data)
-          this.setState({ data: { ...data }, loaded: true })
-        }) // JSON from `response.json()` call
-        .catch(error => console.error(error))
-
-      this.getAddress(latitude, longitude)
-        .then(data => {
-          console.log(data)
+        this.getAddress(latitude, longitude).then(data => {
           this.setState({ address: `${data.data.city}${data.data.district}` })
         })
-        .catch(error => console.error(error))
-    }
+      })
 
-    const error = () => {
-      this.setStatus("Unable to retrieve your location")
-    }
-
-    if (!navigator.geolocation) {
-      this.setStatus("Geolocation is not supported by your browser")
-    } else {
-      this.setStatus("Locating…")
-      navigator.geolocation.getCurrentPosition(success, error)
-    }
+      .catch(error => console.error(error))
   }
 
-  setStatus(str) {
-    this.setState({ status: str })
+  getPosition(options) {
+    return new Promise(function(resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options)
+    })
   }
 
-  getData(latitude, longitude) {
-    const key = `${latitude}${longitude}`
-    const data = JSON.parse(localStorage.getItem(key))
-
-    if (data && this.isCloseToThePresentTime(data)) {
-      console.log("use old data")
-      return Promise.resolve(data)
-    } else {
-      const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
-      return fetch(proxyurl + url)
-        .then(function(response) {
-          return response.json()
-        })
-        .then(function(myJson) {
-          console.log("call api then save new data")
-          localStorage.setItem(key, JSON.stringify(myJson))
-          return myJson
-        })
-    }
+  getWeatherData(latitude, longitude) {
+    const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
+    return fetch(proxyurl + url)
+      .then(function(response) {
+        return response.json()
+      })
+      .then(function(myJson) {
+        return myJson
+      })
   }
 
   getAddress(latitude, longitude) {
@@ -104,26 +66,13 @@ class App extends Component {
       })
   }
 
-  isCloseToThePresentTime(data) {
-    const DoNotUpdateTime = 5 * 60
-
-    return this.getNowTimestampInSeconds() - data.currently.time <
-      DoNotUpdateTime
-      ? true
-      : false
-  }
-
-  getNowTimestampInSeconds() {
-    return Math.floor(Date.now() / 1000)
-  }
-
   render() {
-    const { status, loaded, data, address } = this.state
+    const { loaded, WeatherData, address } = this.state
 
     let weatherOfTheDays = null
     let currentlyInfo = null
     if (loaded) {
-      weatherOfTheDays = data.daily.data.map(d => (
+      weatherOfTheDays = WeatherData.daily.data.map(d => (
         <WeatherOfTheDay
           key={d.time}
           temperatureMax={d.apparentTemperatureMax}
@@ -133,19 +82,16 @@ class App extends Component {
         />
       ))
 
-      const time = new Date(data.currently.time * 1000)
+      const time = new Date(WeatherData.currently.time * 1000)
       currentlyInfo = `${time.getMonth() + 1}/${time.getDate()}
                         ${time.getHours()}:${time.getMinutes()}
-                        ${data.currently.summary}`
+                        ${WeatherData.currently.summary}`
     }
 
     return (
       <div className="App">
-        <p>{status}</p>
-
         {address}
         {currentlyInfo}
-
         <p>---------------</p>
         {weatherOfTheDays}
       </div>
