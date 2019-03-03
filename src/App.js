@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import WeatherOfTheDay from "./WeatherOfTheDay"
+import Footer from "./Footer"
 import "./App.css"
 
 /* https://darksky.net/dev/docs/faq#cross-origin
@@ -92,6 +93,7 @@ class App extends Component {
         {currentlyInfo}
         <p>---------------</p>
         {weatherOfTheDays}
+        <Footer />
       </div>
     )
   }
