@@ -46,18 +46,16 @@ class App extends Component {
 
   getWeatherData(latitude, longitude) {
     const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
-    return fetch(proxyurl + url)
-      .then(function(response) {
-        return response.json()
-      })
-      .then(function(myJson) {
-        return myJson
-      })
+    return this.fetchForJSON(proxyurl + url)
   }
 
   getAddress(latitude, longitude) {
     const url = "https://api.opencube.tw/location?lat=24.14&lng=120.65&"
-    return fetch(proxyurl + url)
+    return this.fetchForJSON(proxyurl + url)
+  }
+
+  fetchForJSON(url) {
+    return fetch(url)
       .then(function(response) {
         return response.json()
       })
