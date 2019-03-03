@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import fetchJsonp from "fetch-jsonp"
 
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import "./App.css"
@@ -13,13 +12,17 @@ const DARK_SKY_API_URL =
   "https://api.darksky.net/forecast/4cb365a801ca5928923efc0e201b8497/"
 
 const LANGUAGE = "zh-tw"
+const proxyurl = "https://v86861062-cors-anywhere.herokuapp.com/"
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { status: "" }
-    this.data = null
-    this.loaded = false
+    this.state = {
+      status: "",
+      data: null,
+      loaded: false,
+      address: ""
+    }
   }
 
   componentWillMount() {
@@ -43,6 +46,13 @@ class App extends Component {
           console.log(data)
           this.setState({ data: { ...data }, loaded: true })
         }) // JSON from `response.json()` call
+        .catch(error => console.error(error))
+
+      this.getAddress(latitude, longitude)
+        .then(data => {
+          console.log(data)
+          this.setState({ address: `${data.data.city}${data.data.district}` })
+        })
         .catch(error => console.error(error))
     }
 
@@ -70,14 +80,8 @@ class App extends Component {
       console.log("use old data")
       return Promise.resolve(data)
     } else {
-      /**
-       * https://darksky.net/dev/docs/faq#cross-origin
-       * Dark Sky API 說不給用 CORS
-       * 所以用 Jsonp
-       */
-      return fetchJsonp(
-        `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
-      )
+      const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}`
+      return fetch(proxyurl + url)
         .then(function(response) {
           return response.json()
         })
@@ -87,6 +91,17 @@ class App extends Component {
           return myJson
         })
     }
+  }
+
+  getAddress(latitude, longitude) {
+    const url = "https://api.opencube.tw/location?lat=24.14&lng=120.65&"
+    return fetch(proxyurl + url)
+      .then(function(response) {
+        return response.json()
+      })
+      .then(function(myJson) {
+        return myJson
+      })
   }
 
   isCloseToThePresentTime(data) {
@@ -103,7 +118,7 @@ class App extends Component {
   }
 
   render() {
-    const { status, loaded, data } = this.state
+    const { status, loaded, data, address } = this.state
 
     let weatherOfTheDays = null
     let currentlyInfo = null
@@ -128,6 +143,7 @@ class App extends Component {
       <div className="App">
         <p>{status}</p>
 
+        {address}
         {currentlyInfo}
 
         <p>---------------</p>
