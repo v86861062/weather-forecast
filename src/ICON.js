@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import "./ICON.css"
 
-
 const ICON_TABLE = {
   "clear-day": "icon-sun",
   "clear-night": "icon-moon",
@@ -17,9 +16,7 @@ const ICON_TABLE = {
 }
 
 function ICON(props) {
-
   const iconClass = ICON_TABLE[props.icon] || ""
-  console.log(iconClass)
   return <div className={iconClass} />
 }
 
