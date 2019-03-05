@@ -1,33 +1,21 @@
-.App {
-  text-align: center;
+html {
+  font-size: calc(16px + 1vw);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+/* Hide scroll bar, but while still being able to scroll */
+.carousel-wrap {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.carousel-wrap::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Workaround for flex bug :(
+ * minimum content sizing of flex items not honored 
+ * https://github.com/philipwalton/flexbugs#flexbug-1 */
+.flex-minimum-content-sizing {
+  flex-shrink: 0;
+  flex-basis: auto;
 }

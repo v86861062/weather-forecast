@@ -1,9 +1,12 @@
 import React from "react"
+import "tachyons/css/tachyons.min.css"
 
 function Footer() {
   return (
     <footer>
-      <a href="https://darksky.net/dev">Powered by Dark Sky</a>
+      <a className="ma2 db f6 link dim gray" href="https://darksky.net/dev">
+        Powered by Dark Sky
+      </a>
     </footer>
   )
 }

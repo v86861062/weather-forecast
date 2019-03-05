@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import "tachyons/css/tachyons.min.css"
 import ICON from "./ICON"
 import Temperature from "./Temperature"
 
@@ -7,12 +8,22 @@ function WeatherOfTheDay(props) {
   const { temperatureMax, temperatureMin, icon, timestamp } = props
   let day = new Date(timestamp * 1000)
   return (
-    <div>
-      {day.getMonth() + 1}/{day.getDate()}
-      <ICON icon={icon} />
-      <Temperature degree={temperatureMax} />
-      <Temperature degree={temperatureMin} />
-      <p>---------</p>
+    <div
+      className="flex-minimum-content-sizing
+                 flex flex-column-l flex-row-m flex-row 
+                 justify-around items-center
+                 ba b--light-silver bw1 f2-ns f4"
+    >
+      <div className="ma2">
+        {day.getMonth() + 1}/{day.getDate()}
+      </div>
+      <div className="f1-ns ma1">
+        <ICON icon={icon} />
+      </div>
+      <div className="flex">
+        <Temperature className="ma2" degree={temperatureMax} />
+        <Temperature className="ma2" degree={temperatureMin} />
+      </div>
     </div>
   )
 }

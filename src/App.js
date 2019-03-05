@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
 import "./App.css"
@@ -88,11 +89,23 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        {address}
-        {currentlyInfo}
-        <p>---------------</p>
-        {weatherOfTheDays}
+      <div
+        className="flex justify-between flex-column 
+                   tc bg-light-green purple vh-100"
+      >
+        <div className="ma3-ns ma2 f-1-ns f2">
+          <div>{address}</div>
+          {currentlyInfo}
+        </div>
+
+        <div
+          className="flex-none-l flex-auto 
+                     ba b--gold bw1 overflow-auto carousel-wrap
+                     flex flex-row-l flex-column-m flex-column justify-between"
+        >
+          {weatherOfTheDays}
+        </div>
+
         <Footer />
       </div>
     )
