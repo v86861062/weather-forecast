@@ -17,9 +17,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      WeatherData: null,
+      weatherData: null,
       loaded: false,
-      address: null
+      address: null,
+      error: false,
+      errorStr: ""
     }
   }
 
@@ -28,16 +30,26 @@ class App extends Component {
       .then(position => {
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
-        this.getWeatherData(latitude, longitude).then(data => {
-          this.setState({ WeatherData: { ...data }, loaded: true })
-        })
 
-        this.getAddress(latitude, longitude).then(data => {
-          this.setState({ address: `${data.data.city}${data.data.district}` })
+        return Promise.all([
+          position,
+          this.getWeatherData(latitude, longitude),
+          this.getAddress(latitude, longitude)
+        ])
+      })
+      .then(allResult => {
+        const weatherData = allResult[1]
+        const address = allResult[2]
+        this.setState({
+          weatherData: { ...weatherData },
+          address: `${address.data.city}${address.data.district}`,
+          loaded: true
         })
       })
-
-      .catch(error => console.error(error))
+      .catch(error => {
+        this.setState({ error: true, errorStr: error.message })
+        console.error(error)
+      })
   }
 
   getPosition(options) {
@@ -59,7 +71,15 @@ class App extends Component {
   fetchForJSON(url) {
     return fetch(url)
       .then(function(response) {
-        return response.json()
+        if (response.status >= 200 && response.status < 300) {
+          return response.json()
+        } else {
+          var error = new Error(
+            `${url} ${response.statusText || response.status}`
+          )
+          error.response = response
+          return Promise.reject(error)
+        }
       })
       .then(function(myJson) {
         return myJson
@@ -67,12 +87,16 @@ class App extends Component {
   }
 
   render() {
-    const { loaded, WeatherData, address } = this.state
+    const { loaded, weatherData, address, error, errorStr } = this.state
+
+    if (error) {
+      return <p>{errorStr}</p>
+    }
 
     let weatherOfTheDays = null
     let currentlyInfo = null
     if (loaded) {
-      weatherOfTheDays = WeatherData.daily.data.map(d => (
+      weatherOfTheDays = weatherData.daily.data.map(d => (
         <WeatherOfTheDay
           key={d.time}
           temperatureMax={d.apparentTemperatureMax}
@@ -82,10 +106,10 @@ class App extends Component {
         />
       ))
 
-      const time = new Date(WeatherData.currently.time * 1000)
+      const time = new Date(weatherData.currently.time * 1000)
       currentlyInfo = `${time.getMonth() + 1}/${time.getDate()}
                         ${time.getHours()}:${time.getMinutes()}
-                        ${WeatherData.currently.summary}`
+                        ${weatherData.currently.summary}`
     }
 
     return (
@@ -100,8 +124,8 @@ class App extends Component {
 
         <div
           className="flex-none-l flex-auto 
-                     ba b--gold bw1 overflow-auto carousel-wrap
-                     flex flex-row-l flex-column-m flex-column justify-between"
+                       ba b--gold bw1 overflow-auto carousel-wrap
+                       flex flex-row-l flex-column-m flex-column justify-between"
         >
           {weatherOfTheDays}
         </div>
