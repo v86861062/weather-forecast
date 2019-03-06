@@ -51,8 +51,8 @@ class App extends Component {
     return this.fetchForJSON(proxyurl + url)
   }
 
-  getAddress(latitude, longitude) {
-    const url = "https://api.opencube.tw/location?lat=24.14&lng=120.65&"
+  getAddress(latitude, longitude) {    
+    const url = `https://api.opencube.tw/location?lat=${latitude}&lng=${longitude}`
     return this.fetchForJSON(proxyurl + url)
   }
 
