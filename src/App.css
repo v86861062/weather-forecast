@@ -2,6 +2,29 @@ html {
   font-size: calc(16px + 1vw);
 }
 
+.background-image::after {
+  content: "";
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+  background-image: url("./bk.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+/* .background-image {
+  
+  background-image: url("./bk.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.5);
+} */
+
 /* Hide scroll bar, but while still being able to scroll */
 .carousel-wrap {
   scrollbar-width: none; /* Firefox */
