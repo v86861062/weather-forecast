@@ -124,8 +124,8 @@ class App extends Component {
 
         <div
           className="flex-none-l flex-auto 
-                       ba b--gold bw1 overflow-auto carousel-wrap
-                       flex flex-row-l flex-column-m flex-column justify-between"
+                     ba b--gold bw1 overflow-auto carousel-wrap
+                     flex flex-row-l flex-column-m flex-column justify-between"
         >
           {weatherOfTheDays}
         </div>
