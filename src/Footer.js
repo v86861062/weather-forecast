@@ -1,19 +1,28 @@
 import React from "react"
 import "tachyons/css/tachyons.min.css"
 
+function Link(props) {
+  const { className, href, children } = props
+  return (
+    <a className={`ma2-ns db f6-ns f7 link dim black ${className}`} href={href}>
+      {children}
+    </a>
+  )
+}
+
 function Footer() {
   return (
     <footer>
-      <a className="fr ma2 db f6 link dim black" href="https://darksky.net/dev">
+      <Link className="fr-ns" href="https://darksky.net/dev">
         Powered by Dark Sky
-      </a>
+      </Link>
 
-      <a
-        className="fl ma2 db f6 link dim black"
+      <Link
+        className="fl-ns"
         href="https://www.pexels.com/photo/landscape-photo-of-mountain-669963/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels"
       >
         Photo by Tsang Chung Yee from Pexels
-      </a>
+      </Link>
     </footer>
   )
 }
