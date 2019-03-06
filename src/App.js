@@ -107,9 +107,10 @@ class App extends Component {
       ))
 
       const time = new Date(weatherData.currently.time * 1000)
-      currentlyInfo = `${time.getMonth() + 1}/${time.getDate()}
-                        ${time.getHours()}:${time.getMinutes()}
-                        ${weatherData.currently.summary}`
+      currentlyInfo = `${address}\n${time.getMonth() +
+        1}/${time.getDate()}   ${time.getHours()}:${time.getMinutes()}\n${
+        weatherData.currently.summary
+      }`
     }
 
     return (
@@ -117,8 +118,10 @@ class App extends Component {
         className="app flex justify-between flex-column 
                    tc purple vh-100 background-image sans-serif"
       >
-        <div className="ma3-ns ma2 f-subheadline-l f-1-m f2">
-          <div>{address}</div>
+        <div
+          className="ma3-ns ma2 f-subheadline-l f-1-m f2 
+                     pre overflow-hidden flex-minimum-content-sizing"
+        >
           {currentlyInfo}
         </div>
 
