@@ -114,10 +114,10 @@ class App extends Component {
 
     return (
       <div
-        className="flex justify-between flex-column 
-                   tc purple vh-100 background-image"
+        className="app flex justify-between flex-column 
+                   tc purple vh-100 background-image sans-serif"
       >
-        <div className="ma3-ns ma2 f-1-ns f2">
+        <div className="ma3-ns ma2 f-subheadline-l f-1-m f2">
           <div>{address}</div>
           {currentlyInfo}
         </div>

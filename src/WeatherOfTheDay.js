@@ -17,7 +17,7 @@ function WeatherOfTheDay(props) {
       <div className="ma2">
         {day.getMonth() + 1}/{day.getDate()}
       </div>
-      <div className="f1-ns ma1">
+      <div className="f-headline-l f-1-m f2 ma1">
         <ICON icon={icon} />
       </div>
       <div className="flex">
