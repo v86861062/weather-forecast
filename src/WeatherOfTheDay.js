@@ -12,12 +12,12 @@ function WeatherOfTheDay(props) {
       className="flex-minimum-content-sizing
                  flex flex-column-l flex-row-m flex-row 
                  justify-around items-center
-                 ba b--light-silver bw1 f2-ns f4"
+                 ba b--light-silver bw1"
     >
       <div className="ma2">
         {day.getMonth() + 1}/{day.getDate()}
       </div>
-      <div className="f-headline-l f-1-m f2 ma1">
+      <div className="f-headline-l ma1">
         <ICON icon={icon} />
       </div>
       <div className="flex">

@@ -4,7 +4,7 @@ import "tachyons/css/tachyons.min.css"
 function Link(props) {
   const { className, href, children } = props
   return (
-    <a className={`ma2-ns db f6-ns f7 link dim black ${className}`} href={href}>
+    <a className={`ma2-ns db link dim black ${className}`} href={href}>
       {children}
     </a>
   )

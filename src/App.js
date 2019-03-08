@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import ReactFitText from "react-fittext"
 import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
@@ -118,21 +119,24 @@ class App extends Component {
         className="app flex justify-between flex-column 
                    tc purple vh-100 background-image sans-serif"
       >
-        <div
-          className="ma3-ns ma2 f-subheadline-l f-1-m f2 
-                     pre overflow-hidden flex-minimum-content-sizing"
-        >
-          {currentlyInfo}
-        </div>
+        <ReactFitText>
+          <div
+            className="ma3-ns ma2 
+                       pre overflow-hidden flex-minimum-content-sizing"
+          >
+            {currentlyInfo}
+          </div>
+        </ReactFitText>
 
-        <div
-          className="flex-none-l flex-auto 
+        <ReactFitText>
+          <div
+            className="flex-none-l flex-auto 
                      ba b--gold bw1 overflow-auto carousel-wrap
                      flex flex-row-l flex-column-m flex-column justify-between"
-        >
-          {weatherOfTheDays}
-        </div>
-
+          >
+            {weatherOfTheDays}
+          </div>
+        </ReactFitText>
         <Footer />
       </div>
     )
