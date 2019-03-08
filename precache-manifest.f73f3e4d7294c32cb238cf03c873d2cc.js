@@ -24,12 +24,12 @@ self.__precacheManifest = [
     "url": "/weather-forecast/static/media/icomoon.f4ae08df.eot"
   },
   {
-    "revision": "fcf32c41e3fab9e32d079b10257cb6da",
-    "url": "/weather-forecast/static/media/icomoon.fcf32c41.woff"
-  },
-  {
     "revision": "9e94e87c2697827f980d0d5114c5727b",
     "url": "/weather-forecast/static/media/icomoon.9e94e87c.ttf"
+  },
+  {
+    "revision": "fcf32c41e3fab9e32d079b10257cb6da",
+    "url": "/weather-forecast/static/media/icomoon.fcf32c41.woff"
   },
   {
     "revision": "36ba6e5214740636fb88d844257c9747",
