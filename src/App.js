@@ -116,12 +116,12 @@ class App extends Component {
 
     return (
       <div
-        className="app flex justify-between flex-column 
+        className="app flex flex-column justify-between items-center 
                    tc purple vh-100 background-image sans-serif"
       >
         <ReactFitText>
           <div
-            className="ma3-ns ma2 
+            className="ma3-ns ma2 w-50
                        pre overflow-hidden flex-minimum-content-sizing"
           >
             {currentlyInfo}
@@ -131,7 +131,7 @@ class App extends Component {
         <ReactFitText>
           <div
             className="flex-none-l flex-auto 
-                     ba b--gold bw1 overflow-auto carousel-wrap
+                     ba b--gold bw1 overflow-auto carousel-wrap w-100
                      flex flex-row-l flex-column-m flex-column justify-between"
           >
             {weatherOfTheDays}

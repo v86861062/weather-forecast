@@ -43,3 +43,5 @@
   flex-shrink: 0;
   flex-basis: auto;
 }
+
+.mw-50  { max-width: 50%; }
