@@ -116,8 +116,8 @@ class App extends Component {
 
     return (
       <div
-        className="app flex flex-column justify-between items-center 
-                   tc purple vh-100 background-image sans-serif"
+        className="app flex flex-column justify-between items-center fixed
+                   tc purple h-100 w-100 background-image sans-serif"
       >
         <ReactFitText>
           <div
