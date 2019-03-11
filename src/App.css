@@ -17,14 +17,6 @@
   background-size: cover;
   background-position: center;
 }
-/* .background-image {
-  
-  background-image: url("./bk.jpeg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-color: rgba(0, 0, 0, 0.5);
-} */
 
 /* Hide scroll bar, but while still being able to scroll */
 .carousel-wrap {
