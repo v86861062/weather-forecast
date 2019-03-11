@@ -3,6 +3,7 @@ import ReactFitText from "react-fittext"
 import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
+import LoaderSpinner from "./LoaderSpinner"
 import "./App.css"
 
 /* https://darksky.net/dev/docs/faq#cross-origin
@@ -119,24 +120,28 @@ class App extends Component {
         className="app flex flex-column justify-between items-center fixed
                    tc purple h-100 w-100 background-image sans-serif"
       >
-        <ReactFitText>
-          <div
-            className="ma3-ns ma2 w-50
-                       pre overflow-hidden flex-minimum-content-sizing"
-          >
-            {currentlyInfo}
-          </div>
-        </ReactFitText>
+        <LoaderSpinner loaded={loaded}>
+          <ReactFitText>
+            <div
+              className="ma3-ns ma2 w-50
+                         pre overflow-hidden flex-minimum-content-sizing"
+            >
+              {currentlyInfo}
+            </div>
+          </ReactFitText>
+        </LoaderSpinner>
 
-        <ReactFitText>
-          <div
-            className="flex-none-l flex-auto 
-                     ba b--gold bw1 overflow-auto carousel-wrap w-100
-                     flex flex-row-l flex-column-m flex-column justify-between"
-          >
-            {weatherOfTheDays}
-          </div>
-        </ReactFitText>
+        <LoaderSpinner loaded={loaded}>
+          <ReactFitText>
+            <div
+              className="flex-none-l flex-auto 
+                       ba b--gold bw1 overflow-auto carousel-wrap w-100
+                       flex flex-row-l flex-column-m flex-column justify-between"
+            >
+              {weatherOfTheDays}
+            </div>
+          </ReactFitText>
+        </LoaderSpinner>
         <Footer />
       </div>
     )
