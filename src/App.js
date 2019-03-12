@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import ReactFitText from "react-fittext"
+import promiseAny from "promise-any"
 import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
@@ -13,7 +14,10 @@ const DARK_SKY_API_URL =
   "https://api.darksky.net/forecast/4cb365a801ca5928923efc0e201b8497/"
 
 const LANGUAGE = "zh-tw"
-const proxyurl = "https://v86861062-cors-anywhere.herokuapp.com/"
+const proxies = [
+  "https://v86861062-cors-anywhere.herokuapp.com/",
+  "https://cors-anywhere.herokuapp.com/"
+]
 
 class App extends Component {
   constructor(props) {
@@ -49,6 +53,7 @@ class App extends Component {
         })
       })
       .catch(error => {
+        console.log(error)
         this.setState({ error: true, errorStr: error.message })
         console.error(error)
       })
@@ -62,12 +67,19 @@ class App extends Component {
 
   getWeatherData(latitude, longitude) {
     const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}&units=auto`
-    return this.fetchForJSON(proxyurl + url)
+    return this.useProxiesToFetch(url)
   }
 
   getAddress(latitude, longitude) {
     const url = `https://api.opencube.tw/location?lat=${latitude}&lng=${longitude}`
-    return this.fetchForJSON(proxyurl + url)
+    return this.useProxiesToFetch(url)
+  }
+
+  useProxiesToFetch(url) {
+    const promises = proxies.map(v => this.fetchForJSON(v + url))
+    return promiseAny(promises).catch(() => {
+      throw new Error("Maybe all proxies are dead :(")
+    })
   }
 
   fetchForJSON(url) {
