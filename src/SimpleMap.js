@@ -85,7 +85,7 @@ class SimpleMap extends Component {
 const MarkWithButton = ({ text, onClick }) => (
   <div className="flex flex-column items-center">
     <div style={greatPlaceStyle} />
-    <MyButton text={text} onClick={onClick} />
+    <MyButton className="ma3 f3 f4-ns"  onClick={onClick} >{text}</MyButton>
   </div>
 )
 

@@ -161,6 +161,15 @@ class App extends Component {
         className="app flex flex-column justify-between items-center fixed
                    tc purple h-100 w-100 background-image sans-serif"
       >
+        <MyButton
+          className="w-30-ns w-auto fixed right-1 top-1"
+          onClick={this._handleOpenMap}
+        >
+          <ReactFitText>
+            <div>{"我要選地點"}</div>
+          </ReactFitText>
+        </MyButton>
+
         <LoaderSpinner loaded={loaded}>
           <ReactFitText>
             <div
@@ -170,7 +179,6 @@ class App extends Component {
               {currentlyInfo}
             </div>
           </ReactFitText>
-          <MyButton text={"我要選地點"} onClick={this._handleOpenMap} />
         </LoaderSpinner>
         <LoaderSpinner loaded={loaded}>
           <ReactFitText>

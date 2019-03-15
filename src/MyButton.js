@@ -1,19 +1,18 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-function MyButton({ text, onClick }) {
+function MyButton({ className = "", children, onClick }) {
   return (
     <button
-      className="f3-ns f4 mt3 pa2 nowrap pointer grow bg-green br4"
+      className={`nowrap pointer grow bg-green br4 ${className}`}
       onClick={onClick}
     >
-      {text}
+      {children}
     </button>
   )
 }
 
 MyButton.propTypes = {
-  text: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired
 }
 
