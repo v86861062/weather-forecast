@@ -5,6 +5,8 @@ import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
 import LoaderSpinner from "./LoaderSpinner"
+import SimpleMap from "./SimpleMap"
+import MyButton from "./MyButton"
 import "./App.css"
 
 /* https://darksky.net/dev/docs/faq#cross-origin
@@ -27,25 +29,33 @@ class App extends Component {
       loaded: false,
       address: null,
       error: false,
-      errorStr: ""
+      errorStr: "",
+      enableMap: false
     }
   }
 
   componentWillMount() {
     this.getPosition()
       .then(position => {
-        const latitude = position.coords.latitude
-        const longitude = position.coords.longitude
-
-        return Promise.all([
-          position,
-          this.getWeatherData(latitude, longitude),
-          this.getAddress(latitude, longitude)
-        ])
+        return {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
       })
+      .then(latLng => {
+        this.getThenUpdateWeatherAndAddress(latLng)
+      })
+  }
+
+  getThenUpdateWeatherAndAddress = ({ latitude, longitude }) => {
+    return Promise.all([
+      this.getWeatherData(latitude, longitude),
+      this.getAddress(latitude, longitude)
+    ])
       .then(allResult => {
-        const weatherData = allResult[1]
-        const address = allResult[2]
+        return { weatherData: allResult[0], address: allResult[1] }
+      })
+      .then(({ weatherData, address }) => {
         this.setState({
           weatherData: { ...weatherData },
           address: `${address.data.city}${address.data.district}`,
@@ -53,7 +63,6 @@ class App extends Component {
         })
       })
       .catch(error => {
-        console.log(error)
         this.setState({ error: true, errorStr: error.message })
         console.error(error)
       })
@@ -100,11 +109,31 @@ class App extends Component {
       })
   }
 
+  _handleEnterLatLng = ({ lat, lng }) => {
+    this.setState({ enableMap: false, loaded: false })
+    this.getThenUpdateWeatherAndAddress({ latitude: lat, longitude: lng })
+  }
+
+  _handleOpenMap = () => {
+    this.setState({ enableMap: true })
+  }
+
   render() {
-    const { loaded, weatherData, address, error, errorStr } = this.state
+    const {
+      loaded,
+      weatherData,
+      address,
+      error,
+      errorStr,
+      enableMap
+    } = this.state
 
     if (error) {
       return <p>{errorStr}</p>
+    }
+
+    if (enableMap) {
+      return <SimpleMap onClickCloseBtn={this._handleEnterLatLng} />
     }
 
     let weatherOfTheDays = null
@@ -141,8 +170,8 @@ class App extends Component {
               {currentlyInfo}
             </div>
           </ReactFitText>
+          <MyButton text={"我要選地點"} onClick={this._handleOpenMap} />
         </LoaderSpinner>
-
         <LoaderSpinner loaded={loaded}>
           <ReactFitText>
             <div

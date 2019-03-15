@@ -1,3 +1,11 @@
+html,
+body {
+  height: 100%;
+}
+#root {
+  height: 100%;
+}
+
 .app {
   font-family: "Segoe UI", "微軟正黑體", sans-serif;
   font-weight: bold;
@@ -36,4 +44,6 @@
   flex-basis: auto;
 }
 
-.mw-50  { max-width: 50%; }
+.mw-50 {
+  max-width: 50%;
+}
