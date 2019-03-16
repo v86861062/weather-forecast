@@ -29,13 +29,13 @@ class SimpleMap extends Component {
     }
   }
 
-  apiIsLoaded = (map, maps) => {
+  _apiIsLoaded = (map, maps) => {
     if (!map) return
 
     this.map = map
   }
 
-  placeMarkerAndPanTo(latLng, map) {
+  _placeMarkerAndPanTo(latLng, map) {
     map.panTo(latLng)
   }
 
@@ -67,7 +67,7 @@ class SimpleMap extends Component {
           defaultZoom={this.props.zoom}
           options={this.createMapOptions}
           onClick={this._handleMapClick}
-          onGoogleApiLoaded={({ map, maps }) => this.apiIsLoaded(map, maps)}
+          onGoogleApiLoaded={({ map, maps }) => this._apiIsLoaded(map, maps)}
           yesIWantToUseGoogleMapApiInternals
         >
           <MarkWithButton

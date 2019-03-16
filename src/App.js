@@ -35,23 +35,20 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.getPosition()
+    this._getPosition()
       .then(position => {
         return {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         }
       })
       .then(latLng => {
-        this.getThenUpdateWeatherAndAddress(latLng)
+        this._getThenUpdateWeatherAndAddress(latLng)
       })
   }
 
-  getThenUpdateWeatherAndAddress = ({ latitude, longitude }) => {
-    return Promise.all([
-      this.getWeatherData(latitude, longitude),
-      this.getAddress(latitude, longitude)
-    ])
+  _getThenUpdateWeatherAndAddress = latLng => {
+    return Promise.all([this._getWeatherData(latLng), this._getAddress(latLng)])
       .then(allResult => {
         return { weatherData: allResult[0], address: allResult[1] }
       })
@@ -68,30 +65,30 @@ class App extends Component {
       })
   }
 
-  getPosition(options) {
+  _getPosition(options) {
     return new Promise(function(resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject, options)
     })
   }
 
-  getWeatherData(latitude, longitude) {
-    const url = `${DARK_SKY_API_URL}${latitude},${longitude}?lang=${LANGUAGE}&units=auto`
-    return this.useProxiesToFetch(url)
+  _getWeatherData({ lat, lng }) {
+    const url = `${DARK_SKY_API_URL}${lat},${lng}?lang=${LANGUAGE}&units=auto`
+    return this._useProxiesToFetch(url)
   }
 
-  getAddress(latitude, longitude) {
-    const url = `https://api.opencube.tw/location?lat=${latitude}&lng=${longitude}`
-    return this.useProxiesToFetch(url)
+  _getAddress({ lat, lng }) {
+    const url = `https://api.opencube.tw/location?lat=${lat}&lng=${lng}`
+    return this._useProxiesToFetch(url)
   }
 
-  useProxiesToFetch(url) {
-    const promises = proxies.map(v => this.fetchForJSON(v + url))
+  _useProxiesToFetch(url) {
+    const promises = proxies.map(v => this._fetchForJSON(v + url))
     return promiseAny(promises).catch(() => {
       throw new Error("Maybe all proxies are dead :(")
     })
   }
 
-  fetchForJSON(url) {
+  _fetchForJSON(url) {
     return fetch(url)
       .then(function(response) {
         if (response.status >= 200 && response.status < 300) {
@@ -109,9 +106,9 @@ class App extends Component {
       })
   }
 
-  _handleEnterLatLng = ({ lat, lng }) => {
+  _handleEnterLatLng = latLng => {
     this.setState({ enableMap: false, loaded: false })
-    this.getThenUpdateWeatherAndAddress({ latitude: lat, longitude: lng })
+    this._getThenUpdateWeatherAndAddress(latLng)
   }
 
   _handleOpenMap = () => {
