@@ -55,7 +55,7 @@ class App extends Component {
       .then(({ weatherData, address }) => {
         this.setState({
           weatherData: { ...weatherData },
-          address: `${address.data.city}${address.data.district}`,
+          address: `${address.data.city || ""}${address.data.district || ""}`,
           loaded: true
         })
       })

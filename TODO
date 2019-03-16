@@ -10,5 +10,5 @@ Todo:
   ✔ 目前時間與天氣資訊用換行分隔 @done(19-03-06 19:00)
   ☐ 可選天氣地點
   ☐ 可選擇特定日期，顯示當日天氣詳細資訊
-  ☐ 當 "city":"null" 和 "district":null 時  不顯示null
+  ✔ 當 "city":"null" 和 "district":null 時  不顯示null @done(19-03-16 11:48)
   
