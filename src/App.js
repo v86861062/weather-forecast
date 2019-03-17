@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import ReactFitText from "react-fittext"
 import promiseAny from "promise-any"
-import "tachyons/css/tachyons.min.css"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
 import LoaderSpinner from "./LoaderSpinner"
@@ -156,7 +155,7 @@ class App extends Component {
     return (
       <div
         className="app flex flex-column justify-between items-center fixed
-                   tc purple h-100 w-100 background-image sans-serif"
+                   tc purple h-100 w-100 background-image"
       >
         <LoaderSpinner className="w-50" loaded={loaded}>
           <MyButton

@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ReactFitText from "react-fittext"
-import "tachyons/css/tachyons.min.css"
 import ICON from "./ICON"
 import Temperature from "./Temperature"
 

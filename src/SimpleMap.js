@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import GoogleMapReact from "google-map-react"
-import "tachyons/css/tachyons.min.css"
+
 import MyButton from "./MyButton"
 
 const Taichung = { lat: 24.14, lng: 120.64 }

@@ -1,5 +1,4 @@
 import React from "react"
-import "tachyons/css/tachyons.min.css"
 
 function Link(props) {
   const { className, href, children } = props
