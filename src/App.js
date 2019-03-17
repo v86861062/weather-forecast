@@ -154,7 +154,7 @@ class App extends Component {
 
     return (
       <div
-        className="app flex flex-column justify-between items-center fixed
+        className="flex flex-column justify-between items-center fixed
                    tc purple h-100 w-100 background-image"
       >
         <LoaderSpinner className="w-50" loaded={loaded}>
