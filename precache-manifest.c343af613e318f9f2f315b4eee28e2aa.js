@@ -20,12 +20,12 @@ self.__precacheManifest = [
     "url": "/weather-forecast/static/js/2.d8e140c2.chunk.js"
   },
   {
-    "revision": "f4ae08df9d0190fb67118b5cf6ae7205",
-    "url": "/weather-forecast/static/media/icomoon.f4ae08df.eot"
-  },
-  {
     "revision": "9e94e87c2697827f980d0d5114c5727b",
     "url": "/weather-forecast/static/media/icomoon.9e94e87c.ttf"
+  },
+  {
+    "revision": "f4ae08df9d0190fb67118b5cf6ae7205",
+    "url": "/weather-forecast/static/media/icomoon.f4ae08df.eot"
   },
   {
     "revision": "fcf32c41e3fab9e32d079b10257cb6da",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/weather-forecast/static/media/bk.cb93c15e.jpeg"
   },
   {
-    "revision": "547455b748720caf864c2beed9b89b84",
+    "revision": "bd7ad0b80546ceaf22d5ccfb114fa279",
     "url": "/weather-forecast/index.html"
   }
 ];
