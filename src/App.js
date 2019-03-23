@@ -54,7 +54,7 @@ class App extends Component {
       .then(({ weatherData, address }) => {
         this.setState({
           weatherData: { ...weatherData },
-          address: `${address.data.city || ""}${address.data.district || ""}`,
+          address: this._getUsefulAddress(address),
           loaded: true
         })
       })
@@ -62,6 +62,17 @@ class App extends Component {
         this.setState({ error: true, errorStr: error.message })
         console.error(error)
       })
+  }
+
+  /* 海上、荒郊野外，沒路的地方沒地址，只好特別處理 :( */
+  _getUsefulAddress(address) {
+    if (address.data.city && address.data.district) {
+      return `${address.data.city}${address.data.district}`
+    } else if (address.data.full_address) {
+      return address.data.full_address
+    } else {
+      return "這裡沒地址 :("
+    }
   }
 
   _getPosition(options) {
