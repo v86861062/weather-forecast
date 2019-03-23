@@ -66,10 +66,14 @@ class App extends Component {
 
   /* 海上、荒郊野外，沒路的地方沒地址，只好特別處理 :( */
   _getUsefulAddress(address) {
-    if (address.data.city && address.data.district) {
-      return `${address.data.city}${address.data.district}`
-    } else if (address.data.full_address) {
-      return address.data.full_address
+    const { country_name, city, district, full_address } = address.data
+
+    if (city && district) {
+      return city + district
+    } else if (country_name && (city || district)) {
+      return `${country_name}${city || ""}${district || ""}`
+    } else if (full_address) {
+      return full_address
     } else {
       return "這裡沒地址 :("
     }
@@ -178,10 +182,7 @@ class App extends Component {
             </div>
           </ReactFitText>
 
-          <MyButton
-            className="w-30-ns w-auto"
-            onClick={this._handleOpenMap}
-          >
+          <MyButton className="w-30-ns w-auto" onClick={this._handleOpenMap}>
             <ReactFitText>
               <div>{"我要選地點"}</div>
             </ReactFitText>
