@@ -169,8 +169,17 @@ class App extends Component {
                    tc purple h-100 w-100 background-image"
       >
         <LoaderSpinner className="w-50" loaded={loaded}>
+          <ReactFitText compressor={1.5}>
+            <div
+              className="ma3-ns ma2 w-100
+                            pre overflow-hidden flex-minimum-content-sizing"
+            >
+              {currentlyInfo}
+            </div>
+          </ReactFitText>
+
           <MyButton
-            className="w-30-ns w-auto fixed right-1 top-1"
+            className="w-30-ns w-auto"
             onClick={this._handleOpenMap}
           >
             <ReactFitText>
@@ -178,14 +187,6 @@ class App extends Component {
             </ReactFitText>
           </MyButton>
 
-          <ReactFitText>
-            <div
-              className="ma3-ns ma2 w-50
-                            pre overflow-hidden flex-minimum-content-sizing"
-            >
-              {currentlyInfo}
-            </div>
-          </ReactFitText>
           <ReactFitText>
             <div
               className="flex-none-l flex-auto 
