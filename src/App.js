@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import ReactFitText from "react-fittext"
+import { slide as Menu } from "react-burger-menu"
 import promiseAny from "promise-any"
 import WeatherOfTheDay from "./WeatherOfTheDay"
 import Footer from "./Footer"
@@ -168,38 +169,40 @@ class App extends Component {
     }
 
     return (
-      <div
-        className="flex flex-column justify-between items-center fixed
-                   tc purple h-100 w-100 background-image"
-      >
-        <LoaderSpinner className="w-50" loaded={loaded}>
-          <ReactFitText compressor={1.5}>
-            <div
-              className="ma3-ns ma2 w-100
-                            pre overflow-hidden flex-minimum-content-sizing"
-            >
-              {currentlyInfo}
-            </div>
-          </ReactFitText>
-
-          <MyButton className="w-30-ns w-auto" onClick={this._handleOpenMap}>
-            <ReactFitText>
-              <div>{"我要選地點"}</div>
-            </ReactFitText>
+      <div>
+        <Menu>
+          <MyButton className="w-100" onClick={this._handleOpenMap}>
+            <div>{"我要選地點"}</div>
           </MyButton>
+        </Menu>
 
-          <ReactFitText>
-            <div
-              className="flex-none-l flex-auto 
-                          ba b--gold bw1 overflow-auto carousel-wrap w-100
-                          flex flex-row-l flex-column-m flex-column justify-between"
-            >
-              {weatherOfTheDays}
-            </div>
-          </ReactFitText>
-        </LoaderSpinner>
+        <div
+          className="flex flex-column justify-between items-center fixed
+                     tc purple h-100 w-100 background-image"
+        >
+          <LoaderSpinner className="w-50" loaded={loaded}>
+            <ReactFitText compressor={1.5}>
+              <div
+                className="ma3-ns ma2 w-100
+                              pre overflow-hidden flex-minimum-content-sizing"
+              >
+                {currentlyInfo}
+              </div>
+            </ReactFitText>
 
-        <Footer />
+            <ReactFitText>
+              <div
+                className="flex-none-l flex-auto 
+                            ba b--gold bw1 overflow-auto carousel-wrap w-100
+                            flex flex-row-l flex-column-m flex-column justify-between"
+              >
+                {weatherOfTheDays}
+              </div>
+            </ReactFitText>
+          </LoaderSpinner>
+
+          <Footer />
+        </div>
       </div>
     )
   }
